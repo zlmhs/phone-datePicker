@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="js/jquery.js"></script>
+    <link rel="stylesheet" href="css/weui.css"/>
+    <link rel="stylesheet" href="css/example.css"/>
+    <script src="js/zepto.min.js"></script>
+    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+    <script src="js/example.js"></script>
+    <style>
+        input{
+            width: 80%;
+            height: 50px;
+            font-size: 30px;
+            margin: 30px;
+            padding: 0 6px;
+        }
+    </style>
+</head>
+<body>
+        <input class="year"  id="bornDate" readonly type="text" placeholder="请选择你的出生年月">
+        <script>
+                    $('#bornDate').on('click', function () {
+                        weui.datePicker({
+                            start: 1990,//自己设定开始时间
+                            end: new Date().getFullYear(),//结束时间我写的是当前的时间
+                            onChange: function (result) {
+                            console.log($(this));
+                                console.log(result);
+                                console.log($('.weui-picker__content').eq(0).css('transform'));
+                                var t =$('.weui-picker__content').eq(0).css('transform').split(',')[5];
+                                var ts = parseFloat(t);
+                                $('.weui-picker__content').eq(0).css('transform',' translate3d(0px, '+t+'px, 0px)');
+                                console.log('ts',parseFloat(t));
+                            },
+                            onConfirm: function (result) {
+                                //点击某一个时间的时候，时间插件消失，把确定的值赋给输入框
+                                $('#bornDate').val(result[0]+'-'+result[1]+'-'+result[2]);
+                                $('#bornDate').css('color','#000000');
+                            }
+                        });
+                    });
+                    resetZoom();
+                    window.onload = window.onresize = function(){
+                        resetZoom();
+                    }
+                    function resetZoom(){
+                        var wh = document.documentElement.clientWidth;
+                        var scale = wh/750;
+                        document.body.style.zoom = scale;
+                    }
+        </script>
+</body>
+</html>
